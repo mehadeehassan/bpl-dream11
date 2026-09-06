@@ -1,73 +1,183 @@
-# BPL Dream11 — Fantasy Cricket Team Builder
+# BPL Dream11
 
-React + TypeScript + Tailwind CSS v4 implementation of the "BPL Dream11" Figma design
-(Assignment 7 — player selection & my-team pages).
+A clean, responsive fantasy cricket team builder for Bangladesh Premier League fans. Browse the available players, select your squad, and review your picks in the **My Team** view.
 
-## ⚠️ Important note about fidelity
+## Overview
 
-The original `.fig` file could not be parsed programmatically — Figma's `.fig` format is a
-proprietary compressed binary (Kiwi schema) that requires Figma's own internal decoder.
-This build was reconstructed from:
+BPL Dream11 is a frontend-only React application built around a simple fantasy team-building flow:
 
-- the file's embedded low-resolution thumbnail (layout/structure reference)
-- the embedded photo assets bundled inside the `.fig` package
+1. View the available BPL players.
+2. Add or remove players with the action button on each player card.
+3. Open **My Team** to review the selected squad.
+4. Remove players from the squad when needed.
 
-Layout, component structure and flow match the design closely. However, **exact hex colors,
-font family/sizes, and spacing** are best-effort (Dream11/BPL-style dark navy + lime-green +
-pink/orange palette). If you can export exact values from Figma (Inspect panel → CSS, or
-higher-res PNG exports of each frame), share them and every token below can be tightened to
-match exactly.
+The current demo starts with three players already selected and supports a maximum squad size display of 11 players.
 
-## Tech stack
+## Features
 
-- [Vite](https://vitejs.dev/) + React 19 + TypeScript
-- Tailwind CSS v4 (via `@tailwindcss/vite`)
-- [lucide-react](https://lucide.dev/) for icons
+- Responsive layout for mobile, tablet, and desktop screens
+- Sticky header with BPL Dream11 branding
+- Navigation between **Available Players** and **My Team**
+- Player cards with:
+  - Player photo
+  - Name and role
+  - Team name
+  - Credits
+  - Fantasy points
+  - Add/remove selection control
+- Selected-player count in the My Team view
+- Empty-state message when no players are selected
+- Remove players directly from the My Team list
+- Hero banner introducing the BPL fantasy team experience
+- Newsletter and team-news subscription UI
+- Reusable React components and strongly typed player data
+- Lucide icons for interface actions
 
-## Installation
+## Tech Stack
+
+- React 19
+- TypeScript
+- Vite
+- Tailwind CSS 4
+- `lucide-react`
+- `oxlint`
+
+## Requirements
+
+- Node.js 18 or newer
+- npm 9 or newer
+
+You can check your installed versions with:
+
+```bash
+node --version
+npm --version
+```
+
+## Getting Started
+
+### 1. Clone or open the project
+
+```bash
+git clone <repository-url>
+cd bpl-dream11
+```
+
+If the project is already open in VS Code, run the remaining commands from the project root.
+
+### 2. Install dependencies
 
 ```bash
 npm install
-npm run dev       # http://localhost:5173
-npm run build     # production build to dist/
-npm run preview   # preview the production build
 ```
 
-Requires Node.js 18+.
+### 3. Start the development server
 
-## Project structure
-
-```
-src/
-  components/
-    Header.tsx        — top nav, logo, tab switcher
-    HeroBanner.tsx     — dark gradient hero banner + CTA
-    PlayerCard.tsx     — single player card (image, stats, select button)
-    PlayerGrid.tsx     — "Available Players" section (filter/sort + grid)
-    MyTeamPanel.tsx    — "My Team (x/11)" list + Continue button
-    PromoSignup.tsx    — floating newsletter/subscribe card
-    Footer.tsx         — dark footer (about/links/newsletter columns)
-  data/
-    players.ts         — mock player data
-  types/
-    index.ts           — shared TypeScript types (Player, PlayerRole)
-  App.tsx              — page composition + team-selection state
-  main.tsx             — React entry point
-  index.css            — Tailwind import + design tokens (@theme)
+```bash
+npm run dev
 ```
 
-## Design tokens (src/index.css → @theme)
+Vite will print the local URL in the terminal, usually `http://localhost:5173`.
 
-| Token             | Value     | Usage                        |
-|--------------------|-----------|-------------------------------|
-| `--color-navy-950`| `#0b0e1a` | Hero banner / footer background |
-| `--color-lime-400`| `#d6f24a` | Primary CTA buttons, filter pill |
-| `--color-pink-500`| `#ec4899` | Subscribe button gradient start |
-| `--color-orange-400`| `#fb923c` | Subscribe button gradient end |
+## Available Scripts
 
-Adjust these in `src/index.css` to match exact brand colors once available.
+| Command           | Description                                               |
+| ----------------- | --------------------------------------------------------- |
+| `npm run dev`     | Starts the Vite development server with hot reload        |
+| `npm run build`   | Runs the TypeScript build and creates a production bundle |
+| `npm run preview` | Serves the production build locally                       |
+| `npm run lint`    | Runs Oxlint against the project                           |
 
-## Replacing placeholder images
+For a production-style local check:
 
-Player photos currently use Unsplash stock images. Swap `photoUrl` in
-`src/data/players.ts` with real player photos, or wire the data up to a real API.
+```bash
+npm run build
+npm run preview
+```
+
+## Project Structure
+
+```text
+bpl-dream11/
+├── public/                  # Public static files
+├── src/
+│   ├── assets/              # Brand and image assets
+│   ├── components/
+│   │   ├── Footer.tsx       # Footer, quick links, and newsletter UI
+│   │   ├── Header.tsx       # Branding and tab navigation
+│   │   ├── HeroBanner.tsx   # Introductory hero section
+│   │   ├── MyTeamPanel.tsx  # Selected-player list and squad count
+│   │   ├── PlayerCard.tsx   # Individual player card
+│   │   ├── PlayerGrid.tsx   # Available player grid
+│   │   └── PromoSignup.tsx  # Team-news subscription section
+│   ├── data/
+│   │   └── players.ts       # Initial player dataset
+│   ├── types/
+│   │   └── index.ts         # Player and player-role types
+│   ├── App.tsx              # Main application state and layout
+│   ├── index.css            # Tailwind import and theme styles
+│   └── main.tsx             # React entry point
+├── index.html
+├── package.json
+├── tsconfig.json
+├── tsconfig.app.json
+├── tsconfig.node.json
+└── vite.config.ts
+```
+
+## Application Behavior
+
+The main application state lives in `src/App.tsx`:
+
+- `players` stores the current player list and each player's `selected` state.
+- `activeTab` controls whether the player grid or My Team panel is visible.
+- Selecting a player toggles that player's `selected` value.
+- The My Team panel derives its list from the selected players.
+- Removing a player from My Team uses the same toggle handler as the player grid.
+
+Player records follow this TypeScript shape:
+
+```ts
+interface Player {
+  id: string;
+  name: string;
+  role: "Batsman" | "Bowler" | "All-Rounder" | "Wicket-Keeper";
+  team: string;
+  photoUrl: string;
+  credits: number;
+  points: number;
+  selected: boolean;
+}
+```
+
+To add or update players, edit `src/data/players.ts` while preserving this shape.
+
+## Current Demo Limitations
+
+This project is currently a frontend prototype. The following controls are present for the interface but do not yet connect to backend logic:
+
+- Player filtering
+- Player sorting
+- Hero **Start Building** button
+- Continue button validation or submission
+- Newsletter form submission
+- Header search, notifications, and mobile menu actions
+- Footer quick links
+- Persistent storage, authentication, leaderboard, fixtures, or live points
+
+Player photos are loaded from external image URLs, so an internet connection may be needed for all images to render.
+
+## Recommended Next Steps
+
+- Add functional role/team filters and sorting
+- Enforce fantasy squad rules and an 11-player limit
+- Add budget and role-balance validation
+- Persist team selections with local storage or a backend API
+- Connect newsletter forms to a real subscription service
+- Add authentication, fixtures, leaderboard, and live scoring
+- Replace remote image URLs with optimized local or CDN-managed assets
+- Add component and interaction tests
+
+## License
+
+No license has been specified for this project yet.

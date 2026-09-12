@@ -1,8 +1,24 @@
+import { useState } from "react";
+import { toast } from "react-hot-toast";
 import logo from "../assets/Group 1.png";
 
 const quickLinks = ["Available Players", "My Team", "Fixtures", "Leaderboard"];
 
 export default function Footer() {
+  const [email, setEmail] = useState("");
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    if (!email.trim()) {
+      toast.error("Please enter your email address.");
+      return;
+    }
+
+    toast.success("You're subscribed! Watch your inbox for updates.");
+    setEmail("");
+  };
+
   return (
     <footer className="bg-navy-950 pt-24 pb-8 text-gray-300">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
@@ -31,9 +47,15 @@ export default function Footer() {
 
           <div>
             <h4 className="mb-3 text-sm font-semibold text-white">Newsletter</h4>
-            <form className="flex overflow-hidden rounded-full border border-white/10">
-              <input type="email" placeholder="Your email" className="w-full bg-transparent px-4 py-2 text-sm text-white placeholder:text-gray-500 focus:outline-none" />
-              <button type="submit" className="shrink-0 bg-linear-to-r from-pink-500 to-orange-400 px-4 text-xs font-semibold text-white">
+            <form onSubmit={handleSubmit} className="flex overflow-hidden rounded-full border border-white/10">
+              <input
+                type="email"
+                value={email}
+                onChange={(event) => setEmail(event.target.value)}
+                placeholder="Your email"
+                className="min-w-0 flex-1 bg-transparent px-4 py-2 text-sm text-white placeholder:text-gray-500 focus:outline-none"
+              />
+              <button type="submit" className="shrink-0 bg-linear-to-r from-pink-500 to-orange-400 px-4 py-2 text-xs font-semibold text-white">
                 Subscribe
               </button>
             </form>

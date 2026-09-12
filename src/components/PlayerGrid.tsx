@@ -10,12 +10,12 @@ interface PlayerGridProps {
 export default function PlayerGrid({ players, onToggle }: PlayerGridProps) {
   return (
     <section className="mx-auto mt-10 max-w-6xl px-4 pb-16 sm:px-6">
-      <div className="mb-5 flex items-center justify-between">
+      <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
         <h2 className="font-display text-lg font-semibold text-navy-950">
           Available Players
         </h2>
 
-        <div className="flex items-center gap-3">
+        <div className="flex flex-wrap items-center gap-3">
           <button className="flex items-center gap-1.5 rounded-full bg-lime-400 px-4 py-1.5 text-xs font-semibold text-navy-950 hover:bg-lime-500">
             <SlidersHorizontal size={14} />
             Filters

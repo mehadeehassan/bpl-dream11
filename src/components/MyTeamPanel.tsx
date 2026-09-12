@@ -14,7 +14,7 @@ export default function MyTeamPanel({
 }: MyTeamPanelProps) {
   return (
     <section className="mx-auto mt-10 max-w-3xl px-4 pb-16 sm:px-6">
-      <div className="mb-5 flex items-center justify-between">
+      <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
         <h2 className="font-display text-lg font-semibold text-navy-950">
           My Team ({players.length}/{maxSize})
         </h2>
@@ -35,28 +35,28 @@ export default function MyTeamPanel({
             {players.map((player) => (
               <li
                 key={player.id}
-                className="flex items-center gap-4 px-5 py-3"
+                className="flex items-center gap-3 px-3 py-3 sm:gap-4 sm:px-5"
               >
                 <img
                   src={player.photoUrl}
                   alt={player.name}
                   className="h-10 w-10 shrink-0 rounded-full object-cover"
                 />
-                <div className="flex-1">
-                  <p className="text-sm font-semibold text-navy-950">
+                <div className="min-w-0 flex-1">
+                  <p className="truncate text-sm font-semibold text-navy-950">
                     {player.name}
                   </p>
-                  <p className="text-xs text-gray-500">
+                  <p className="truncate text-xs text-gray-500">
                     {player.role} · {player.team}
                   </p>
                 </div>
-                <span className="text-xs font-semibold text-gray-500">
+                <span className="shrink-0 text-xs font-semibold text-gray-500">
                   {player.credits} cr
                 </span>
                 <button
                   onClick={() => onRemove(player.id)}
                   aria-label={`Remove ${player.name}`}
-                  className="flex h-7 w-7 items-center justify-center rounded-full text-gray-400 hover:bg-red-50 hover:text-red-500"
+                  className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-gray-400 hover:bg-red-50 hover:text-red-500"
                 >
                   <X size={14} />
                 </button>
